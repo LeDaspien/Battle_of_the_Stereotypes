@@ -15,6 +15,7 @@ class GameScene: SKScene {
         let yH = frm.origin.y + frm.height
         
         print("werfen")
+        print("test")
         print(xW)
         print(yH)
         
