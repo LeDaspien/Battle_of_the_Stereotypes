@@ -12,6 +12,55 @@ import GameplayKit
 
 class GameViewController: UIViewController {
 
+   let tapRec = UITapGestureRecognizer()
+    
+    @IBOutlet weak var p1: UIImageView!
+    @IBOutlet weak var p2: UIImageView!
+    @IBOutlet weak var arrow: UIView!
+    @IBOutlet weak var zurueckZiehen: UIButton!
+    
+    func imagetap(){
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tappedView(tapGestureRecognizer:)))
+        
+        let longGesture = UILongPressGestureRecognizer(target: self, action: #selector(holdView(tapGestureRecognizer:)))
+        p1.isUserInteractionEnabled = true
+        p1.addGestureRecognizer(tapGestureRecognizer)
+        p1.addGestureRecognizer(longGesture)
+    }
+    
+    @objc func tappedView(tapGestureRecognizer: UITapGestureRecognizer){
+        print("image tapped")
+    }
+    @objc func holdView(tapGestureRecognizer: UITapGestureRecognizer){
+        arrow.isHidden = false;
+        var point = CGPoint(x: 0, y: 0)
+        var start = CGPoint(x: 0, y: 0)
+         point = tapGestureRecognizer.location(in: p1)
+        arrow.transform = CGAffineTransform(scaleX: -1, y: 1)
+        if tapGestureRecognizer.state == .began {
+           
+            start.x = point.x + p1.center.x
+            start.y = point.y + p1.center.y
+            
+            print(point)
+        }
+        print("image hold")
+        arrow.transform = CGAffineTransform(rotationAngle: (point.x + p1.center.x)/50)
+        arrow.transform = CGAffineTransform(rotationAngle: (point.y + p1.center.y)/50)
+        
+         if tapGestureRecognizer.state == .ended {
+            arrow.isHidden = true
+            let frm: CGRect = p1.frame
+            let gs = GameScene()
+            gs.werfen(frm:frm)
+        }
+    }
+    func scaleImage(_ sender: UIPinchGestureRecognizer) {
+        arrow.transform = CGAffineTransform(scaleX: sender.scale, y: sender.scale)
+    }
+    @IBAction func back(_ sender: Any) {
+        print(sender)
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -24,32 +73,15 @@ class GameViewController: UIViewController {
                 // Present the scene
                 view.presentScene(scene)
             }
-            
+            imagetap()
             view.ignoresSiblingOrder = true
             
             view.showsFPS = true
             view.showsNodeCount = true
+            
+    
         }
     }
 
-    override var shouldAutorotate: Bool {
-        return true
-    }
-
-    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
-        if UIDevice.current.userInterfaceIdiom == .phone {
-            return .allButUpsideDown
-        } else {
-            return .all
-        }
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Release any cached data, images, etc that aren't in use.
-    }
-
-    override var prefersStatusBarHidden: Bool {
-        return true
-    }
+   
 }
