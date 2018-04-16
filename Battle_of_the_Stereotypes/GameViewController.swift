@@ -21,7 +21,7 @@ class GameViewController: UIViewController {
     
     func imagetap(){
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tappedView(tapGestureRecognizer:)))
-        print("test2")
+        print("test1")
         let longGesture = UILongPressGestureRecognizer(target: self, action: #selector(holdView(tapGestureRecognizer:)))
         p1.isUserInteractionEnabled = true
         p1.addGestureRecognizer(tapGestureRecognizer)
