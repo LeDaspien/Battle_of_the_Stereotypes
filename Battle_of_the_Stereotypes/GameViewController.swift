@@ -21,7 +21,7 @@ class GameViewController: UIViewController {
     
     func imagetap(){
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tappedView(tapGestureRecognizer:)))
-        
+        print("test")
         let longGesture = UILongPressGestureRecognizer(target: self, action: #selector(holdView(tapGestureRecognizer:)))
         p1.isUserInteractionEnabled = true
         p1.addGestureRecognizer(tapGestureRecognizer)
@@ -36,9 +36,9 @@ class GameViewController: UIViewController {
         var point = CGPoint(x: 0, y: 0)
         var start = CGPoint(x: 0, y: 0)
          point = tapGestureRecognizer.location(in: p1)
-        arrow.transform = CGAffineTransform(scaleX: -1, y: 1)
+        
         if tapGestureRecognizer.state == .began {
-           
+
             start.x = point.x + p1.center.x
             start.y = point.y + p1.center.y
             
@@ -47,12 +47,9 @@ class GameViewController: UIViewController {
         print("image hold")
         arrow.transform = CGAffineTransform(rotationAngle: (point.x + p1.center.x)/50)
         arrow.transform = CGAffineTransform(rotationAngle: (point.y + p1.center.y)/50)
-        
+        arrow.layer.anchorPoint = CGPoint(x:p1.center.x, y:p1.center.y);
          if tapGestureRecognizer.state == .ended {
             arrow.isHidden = true
-            let frm: CGRect = p1.frame
-            let gs = GameScene()
-            gs.werfen(frm:frm)
         }
     }
     func scaleImage(_ sender: UIPinchGestureRecognizer) {
